@@ -1,21 +1,20 @@
 
 
 var Twitter = require('twitter');
-var spotify = require('spotify');
+var Spotify = require('node-spotify-api');
 var request = require('request');
 var fs = require('fs');
 require("dotenv").config();
 var keys = require("./keys.js");
 
 var input1 = process.argv[2];
-var input2 = process.argv[3];
+var input2 = process.argv[3,4,5];
 
 
  var spotifyKeys = (keys.spotify);
  var twitterKeys = (keys.twitter);
- console.log(spotifyKeys)
-// console.log(twitterKeys)
-//Sconsole.log("keys : " + keys.twitter.consumer_key)
+
+
 
 
 function calls(param1, param2){
@@ -28,6 +27,10 @@ function calls(param1, param2){
 
    if(param1 === 'movie-this'){
      movieThis(param2);
+}
+
+if(param1 === 'do-what-it-says'){
+
 }
 
 }
@@ -53,11 +56,13 @@ client.get('statuses/user_timeline', params, function(error, tweets, response) {
     for(var i=0 ; i < tweets.length; i++){
      // console.log(tweets[i]);
      tweetDate = tweets[i].created_at
-     console.log("Tweet was born on : " + tweetDate)
+     //tweetYear = tweets[i].created_at
+     console.log("Tweet # " + (i +1) +  " was born on :  " + tweetDate.slice(0,11)) 
+     
      console.log("Tweet Text : "  + tweets[i].text)
      console.log("\n-----------------------------------\n")
 
-     // .toString().slice(0,24)
+    
 
    
      
@@ -66,7 +71,7 @@ client.get('statuses/user_timeline', params, function(error, tweets, response) {
   
       }
     
-    //console.log(response)
+    
   }
   else{
   
@@ -77,24 +82,41 @@ client.get('statuses/user_timeline', params, function(error, tweets, response) {
 
 
 function spotifyThis(param2){
- // var spotify = new spotify(spotifyKeys)
+
   var song = param2; 
-  console.log("called spot")
+
+  if(!param2){
+    song = "Ace of Base"
+  }
  
-  spotify.search({ type: 'track', query: song }, function(err, data) {
-    if ( err ) {
-        console.log('Error occurred: ' + err);
-        return;
+ 
+  var spotify = new Spotify(spotifyKeys);
+   
+  spotify.search({ type: 'track', query: song  + '&limit=1'}, function(err, data) {
+    if (err) {
+      return console.log('Error occurred: ' + err);
     }
-    else{
-    console.log('spotfiy is calling')
-    console.log(data);
-    // Do something with 'data'
-    } 
-});
+   
+  else{
+    var songInfo = data.tracks.items[0]
+    var artist  = songInfo.artists[0].name
+    var album =  (songInfo.album.name)
+
+  
+    console.log ("'"+ songInfo.name +  "'  by " + artist )
+    console.log(" off of the album " + album )
+ 
+ //console.log ("Song Name : " + songInfo.name)
+ // console.log(songInfo.artists[0].name)
+ // console.log(data.tracks.artists)
+
+
+  }
+  });
 
  
 }
+
 
 
 
