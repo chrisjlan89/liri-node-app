@@ -1,0 +1,26 @@
+{
+  "name": "liri-node-app",
+  "version": "1.0.0",
+  "description": "liri app node",
+  "main": "liri.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chrisjlan89/liri-node-app.git"
+  },
+  "author": "chris lantier",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/chrisjlan89/liri-node-app/issues"
+  },
+  "homepage": "https://github.com/chrisjlan89/liri-node-app#readme",
+  "dependencies": {
+    "dotenv": "^4.0.0",
+    "omdb": "^0.8.0",
+    "request": "^2.83.0",
+    "spotify": "^0.3.0",
+    "twitter": "^1.7.1"
+  }
+}
