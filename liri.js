@@ -1,5 +1,5 @@
 
-
+// Setup for our packges
 var Twitter = require('twitter');
 var Spotify = require('node-spotify-api');
 var request = require('request');
@@ -7,8 +7,10 @@ var fs = require('fs');
 require("dotenv").config();
 var keys = require("./keys.js");
 
+
+// Assigns our arguments in the terminal to 
 var input1 = process.argv[2];
-var input2 = process.argv[3,4,5];
+var input2 = process.argv[3];
 
 
  var spotifyKeys = (keys.spotify);
@@ -30,7 +32,7 @@ function calls(param1, param2){
 }
 
 if(param1 === 'do-what-it-says'){
-
+  doWhatItSays(param1,param2)
 }
 
 }
@@ -40,11 +42,6 @@ calls(input1,input2)
 
 function myTweets(){
 
-
-
-
-    
- 
 var client = new Twitter(twitterKeys)
 // console.log(client);
  
@@ -65,11 +62,7 @@ client.get('statuses/user_timeline', params, function(error, tweets, response) {
     
 
    
-     
-  
-     
-  
-      }
+     }
     
     
   }
@@ -82,11 +75,13 @@ client.get('statuses/user_timeline', params, function(error, tweets, response) {
 
 
 function spotifyThis(param2){
+  var song = param2;
+  
 
-  var song = param2; 
-
+  console.log(param2)
   if(!param2){
     song = "Ace of Base"
+    console.log("inside if : " + param2)
   }
  
  
@@ -118,12 +113,14 @@ function spotifyThis(param2){
 }
 
 
-
-
-
 function movieThis(param2){
   
-  var movieName = param2;
+  var movieName = param2 ;
+   //console.log(param2)
+  if(!param2){
+    movieName = 'Mr. Nobody'
+    
+  } 
  /* for (var i = 2; i < param2.length; i++) {
 
     if (i > 2 && i < param2.length) {
@@ -163,16 +160,34 @@ function movieThis(param2){
       console.log("\n imdb Rating : " + imdbRating);
       console.log("\n Rotten Tomatoes Rating :" + rottenTomatoesRating);
       console.log("\n Country : " + country);
-      console.log("\n langiage : " + language );
+      console.log("\n language : " + language );
       console.log("\n Plot :" + plot);
       console.log("\n Actors : " + Actors) 
        
     }
   });
 
- // console.log('omdb is calling')
 }
 
+function doWhatItSays(error, data){
+
+  fs.readFile("random.txt", "utf8", function(error, data){
+  // If the code experiences any errors it will log the error to the console.
+  if (error) {
+    return console.log(error);
+  }
 
 
+
+  // Then split it by commas (to make it more readable)
+  var dataArr = data.split(",");
+
+
+
+  calls(dataArr[0],dataArr[1])
+  
+
+
+});
+};
 
